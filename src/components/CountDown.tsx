@@ -22,6 +22,10 @@ const Counter: FC<Props> = ({ maxCount = MAX_COUNT }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (timeLeft === 0) reset();
+  }, [timeLeft, maxCount, reset]);
+
   return (
     <Box p={5} w="sm" borderWidth="1px" borderRadius="lg" boxShadow="base">
       <Stat mb={2}>
