@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react';
+import { type SyntheticEvent, useEffect, useState } from 'react';
 
-export const useTimer = (maxCount: number): [number, () => void] => {
+export const useTimer = (
+  maxCount: number
+): [number, (event: SyntheticEvent) => void] => {
   const [timeLeft, setTimeLeft] = useState(maxCount);
 
   const tick = (): void => {
     setTimeLeft((t) => t - 1);
   };
 
-  const reset = (): void => {
+  const reset = (event: SyntheticEvent): void => {
+    event.stopPropagation();
     setTimeLeft(maxCount);
   };
 
