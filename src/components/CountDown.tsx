@@ -1,30 +1,13 @@
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
 import { RepeatClockIcon as ResetIcon } from '@chakra-ui/icons';
 import { Box, Button, Stat, StatLabel, StatNumber } from '@chakra-ui/react';
+import { useTimer } from 'hooks/useTimer';
 
 type Props = { maxCount?: number };
 const MAX_COUNT = 60;
 
-const Counter: FC<Props> = ({ maxCount = MAX_COUNT }) => {
-  const [timeLeft, setTimeLeft] = useState(maxCount);
-  const tick = (): void => {
-    setTimeLeft((t) => t - 1);
-  };
-  const reset = (): void => {
-    setTimeLeft(maxCount);
-  };
-  useEffect(() => {
-    const timerId = setInterval(tick, 1000);
-
-    return () => {
-      clearInterval(timerId);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (timeLeft === 0) reset();
-  }, [timeLeft, maxCount]);
+const CountDown: FC<Props> = ({ maxCount = MAX_COUNT }) => {
+  const [timeLeft, reset] = useTimer(maxCount);
 
   return (
     <Box p={5} w="sm" borderWidth="1px" borderRadius="lg" boxShadow="base">
@@ -45,4 +28,4 @@ const Counter: FC<Props> = ({ maxCount = MAX_COUNT }) => {
   );
 };
 
-export default Counter;
+export default CountDown;
