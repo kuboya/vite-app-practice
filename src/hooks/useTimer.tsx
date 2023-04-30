@@ -1,30 +1,48 @@
-import { type SyntheticEvent, useEffect, useState } from 'react';
+import {
+  type SyntheticEvent,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+} from 'react';
 
 export const useTimer = (
   maxCount: number
 ): [number, (event: SyntheticEvent) => void] => {
+  const intervalId = useRef<ReturnType<typeof setInterval>>();
+
   const [timeLeft, setTimeLeft] = useState(maxCount);
 
-  const tick = (): void => {
+  const tick = useCallback((): void => {
     setTimeLeft((t) => t - 1);
-  };
-
-  const reset = (event: SyntheticEvent): void => {
-    event.stopPropagation();
-    setTimeLeft(maxCount);
-  };
-
-  useEffect(() => {
-    const timerId = setInterval(tick, 1000);
-
-    return () => {
-      clearInterval(timerId);
-    };
   }, []);
 
+  const reset = useCallback(
+    (event?: SyntheticEvent): void => {
+      event?.stopPropagation();
+
+      if (intervalId.current !== undefined) {
+        clearInterval(intervalId.current);
+      }
+
+      setTimeLeft(maxCount);
+
+      intervalId.current = setInterval(tick, 1000);
+    },
+    [maxCount, tick]
+  );
+
   useEffect(() => {
-    if (timeLeft === 0) setTimeLeft(maxCount);
-  }, [timeLeft, maxCount]);
+    reset();
+
+    return () => {
+      clearInterval(intervalId.current);
+    };
+  }, [reset]);
+
+  useEffect(() => {
+    if (timeLeft === 0) reset();
+  }, [timeLeft, maxCount, reset]);
 
   return [timeLeft, reset];
 };
