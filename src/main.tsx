@@ -5,6 +5,7 @@ import App from 'App';
 import CountDown from 'components/CountDown';
 import Counter from 'components/Counter';
 import SampleForm from 'components/SampleForm';
+import SampleValidForm from 'components/SampleValidForm';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -14,6 +15,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <Counter />
       <CountDown />
       <SampleForm />
+      <SampleValidForm />
     </ChakraProvider>
   </React.StrictMode>
 );
