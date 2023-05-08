@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import AllUsers from 'components/echosystem/AllUsers';
-import UsersListByArea from 'components/echosystem/UsersListByArea';
+import AllUsers from 'components/ecosystems/AllUsers';
+import UsersListByArea from 'components/ecosystems/UsersListByArea';
 import UsersFrame from 'components/templates/UsersFrame';
 import UsersHome from 'components/templates/UsersHome';
 
