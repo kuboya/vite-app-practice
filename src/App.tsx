@@ -1,9 +1,11 @@
 import type { FC } from 'react';
 import { ChakraProvider, Heading } from '@chakra-ui/react';
+import { configureStore } from '@reduxjs/toolkit';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider as ReduxProvider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { createStore } from 'redux';
+import { counterSlice } from 'stores/counter';
 import { counterReducer, initialState } from 'stores/reducers';
 import CharacterList from 'components/CharacterList';
 import type { Character } from 'components/CharacterList';
@@ -13,6 +15,7 @@ import Counter from 'components/Counter';
 import SampleForm from 'components/SampleForm';
 import SampleValidForm from 'components/SampleValidForm';
 import CounterRedux from 'components/templates/CounterRedux';
+import CounterReduxTK from 'components/templates/CounterReduxTK';
 import DemoRouters from 'routes/DemoRoutes';
 import UsersRoutes from 'routes/UsersRoutes';
 
@@ -49,6 +52,9 @@ const characters: Character[] = [
 ];
 
 const store = createStore(counterReducer, initialState);
+
+const storeTK = configureStore({ reducer: counterSlice.reducer });
+
 const appTitle = import.meta.env.VITE_APP_TITLE;
 
 const App: FC = () => (
@@ -71,6 +77,9 @@ const App: FC = () => (
     <CountDown />
     <ReduxProvider store={store}>
       <CounterRedux pageTitle={appTitle} />
+    </ReduxProvider>
+    <ReduxProvider store={storeTK}>
+      <CounterReduxTK pageTitle={appTitle} />
     </ReduxProvider>
     <SampleForm />
     <SampleValidForm />
